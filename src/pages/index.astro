@@ -2,12 +2,12 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Button from '@/components/Button.astro';
-import WorkRow from '@/components/WorkRow.astro';
+import ProjectRow from '@/components/ProjectRow.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
 import { SITE } from '@/site.config';
 
-const allWork = await getCollection('work', ({ data }) => !data.draft);
-const sorted = [...allWork].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const allProjects = await getCollection('projects', ({ data }) => !data.draft);
+const sorted = [...allProjects].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 const featured = sorted.filter((entry) => entry.data.featured);
 const rest = sorted.filter((entry) => !entry.data.featured);
 const selected = [...featured, ...rest].slice(0, 5);
@@ -25,28 +25,28 @@ const selected = [...featured, ...rest].slice(0, 5);
     </h1>
 
     <p class="text-ink-soft mt-6 max-w-md">
-      {SITE.role} — based on the work below, not a list of buzzwords.
+      {SITE.role} — based on the projects below, not a list of buzzwords.
     </p>
 
     <div class="mt-8 flex flex-wrap items-center gap-3">
-      <Button href="/work" variant="solid">View the work →</Button>
+      <Button href="/projects" variant="solid">View the projects →</Button>
       <Button href="#contact" variant="ghost">Say hello</Button>
     </div>
   </section>
 
-  <section id="work" class="mx-auto max-w-3xl px-6 pb-20">
-    <SectionHeading eyebrow="Selected work" count={allWork.length} />
+  <section id="projects" class="mx-auto max-w-3xl px-6 pb-20">
+    <SectionHeading eyebrow="Selected projects" count={allProjects.length} />
     <div>
-      {selected.map((entry) => <WorkRow entry={entry} />)}
+      {selected.map((entry) => <ProjectRow entry={entry} />)}
     </div>
     {
-      allWork.length > selected.length && (
+      allProjects.length > selected.length && (
         <div class="mt-6">
           <a
-            href="/work"
+            href="/projects"
             class="text-ink-soft hover:text-signal font-mono text-xs transition-colors"
           >
-            View all {allWork.length} projects →
+            View all {allProjects.length} projects →
           </a>
         </div>
       )
